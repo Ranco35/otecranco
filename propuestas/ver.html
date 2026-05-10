@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Comercial — OTEC Lago Ranco</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0f1419;
+    --bg-card: #1a2332;
+    --bg-surface: #222d3d;
+    --accent: #4f8eff;
+    --accent-hover: #3a7aee;
+    --green: #51cf66;
+    --red: #ff6b6b;
+    --gold: #fcc419;
+    --text: #e9ecef;
+    --text-mute: #8899aa;
+    --border: #2c3e50;
+    --radius: 16px;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ==== Login Gate ==== */
+  .gate-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.5s, visibility 0.5s;
+  }
+  .gate-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .gate-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 48px;
+    max-width: 440px;
+    width: 90%;
+    text-align: center;
+  }
+  .gate-logo {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--accent), #8a52ff);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 32px; font-weight: 800; color: white;
+  }
+  .gate-box h1 { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .gate-box p { color: var(--text-mute); font-size: 14px; margin-bottom: 32px; }
+  .gate-input {
+    width: 100%; padding: 14px 18px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    color: var(--text);
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .gate-input:focus { border-color: var(--accent); }
+  .gate-input::placeholder { color: var(--text-mute); }
+  .gate-btn {
+    width: 100%; padding: 14px;
+    background: var(--accent);
+    color: white;
+    border: none; border-radius: 12px;
+    font-size: 16px; font-weight: 600;
+    cursor: pointer;
+    margin-top: 16px;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .gate-btn:hover { background: var(--accent-hover); }
+  .gate-btn:active { transform: scale(0.98); }
+  .gate-error {
+    color: var(--red); font-size: 13px;
+    margin-top: 12px; display: none;
+  }
+  .gate-error.show { display: block; }
+
+  /* ==== Top Bar ==== */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(15, 20, 25, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+  }
+  .topbar-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .topbar-brand {
+    font-weight: 700; font-size: 14px;
+    color: var(--text-mute);
+  }
+  .topbar-brand span { color: var(--accent); }
+  .topbar-info {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 13px; color: var(--text-mute);
+  }
+  .topbar-badge {
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .badge-activa { background: rgba(81, 207, 102, 0.15); color: var(--green); }
+  .topbar-actions { display: flex; gap: 10px; }
+  .btn-sm {
+    padding: 8px 18px;
+    border-radius: 10px;
+    font-size: 13px; font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    color: var(--text);
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-sm:hover { border-color: var(--accent); background: rgba(79, 142, 255, 0.1); }
+  .btn-sm.primary { background: var(--accent); border-color: var(--accent); color: white; }
+  .btn-sm.primary:hover { background: var(--accent-hover); }
+
+  /* ==== Proposal Frame ==== */
+  .proposal-frame {
+    max-width: 100%; margin: 0 auto;
+    background: white;
+    min-height: 80vh;
+  }
+  .proposal-frame iframe {
+    width: 100%; border: none;
+    min-height: 100px;
+  }
+
+  /* ==== Comments Section ==== */
+  .comments-section {
+    max-width: 800px; margin: 0 auto;
+    padding: 48px 24px;
+  }
+  .comments-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  .comments-header h2 {
+    font-size: 24px; font-weight: 700;
+  }
+  .comments-count {
+    background: var(--bg-surface);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 13px;
+    color: var(--text-mute);
+  }
+
+  .comment-form {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 32px;
+  }
+  .comment-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  @media (max-width: 600px) { .comment-form-row { grid-template-columns: 1fr; } }
+  .comment-input {
+    width: 100%; padding: 12px 16px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    resize: vertical;
+  }
+  .comment-input:focus { border-color: var(--accent); }
+  .comment-input::placeholder { color: var(--text-mute); }
+  .comment-submit {
+    margin-top: 12px;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: white;
+    border: none; border-radius: 10px;
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .comment-submit:hover { background: var(--accent-hover); }
+
+  .comments-list { display: flex; flex-direction: column; gap: 16px; }
+  .comment-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+  }
+  .comment-meta {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 10px;
+  }
+  .comment-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), #8a52ff);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-weight: 700; font-size: 14px;
+    flex-shrink: 0;
+  }
+  .comment-author { font-weight: 600; font-size: 14px; }
+  .comment-date { color: var(--text-mute); font-size: 12px; }
+  .comment-body { font-size: 14px; color: var(--text); line-height: 1.6; }
+
+  .no-comments {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--text-mute);
+  }
+  .no-comments-icon { font-size: 48px; margin-bottom: 16px; opacity: 0.5; }
+
+  /* ==== Footer ==== */
+  .portal-footer {
+    text-align: center;
+    padding: 32px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--text-mute);
+    font-size: 12px;
+  }
+  .portal-footer a { color: var(--accent); text-decoration: none; }
+
+  /* ==== Tabs ==== */
+  .tab-bar {
+    display: flex;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+  }
+  .tab-btn {
+    padding: 14px 24px;
+    background: none; border: none;
+    color: var(--text-mute);
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ==== Responsive ==== */
+  @media (max-width: 600px) {
+    .gate-box { padding: 32px 24px; }
+    .topbar-info { display: none; }
+    .comments-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN GATE ===== -->
+<div class="gate-overlay" id="gateOverlay">
+  <div class="gate-box">
+    <div class="gate-logo">OLR</div>
+    <h1>Propuesta Comercial</h1>
+    <p>Este documento es privado. Ingresa la clave proporcionada para acceder.</p>
+    <input type="password" class="gate-input" id="gatePassword" placeholder="Clave de acceso" autocomplete="off">
+    <button class="gate-btn" id="gateSubmit" onclick="checkPassword()">Ingresar</button>
+    <div class="gate-error" id="gateError">Clave incorrecta. Verifica e intenta de nuevo.</div>
+  </div>
+</div>
+
+<!-- ===== CONTENT (hidden until auth) ===== -->
+<div id="mainContent" style="display:none;">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-brand">OTEC Lago Ranco <span>|</span> Propuesta Comercial</div>
+      <div class="topbar-info">
+        <span id="propCliente"></span>
+        <span class="topbar-badge badge-activa" id="propEstado"></span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-sm" onclick="scrollToComments()">Comentarios</button>
+        <a class="btn-sm primary" id="btnDownloadPdf" href="#" download>Descargar PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('propuesta', this)">Propuesta</button>
+    <button class="tab-btn" onclick="switchTab('comentarios', this)">Comentarios <span id="commentBadge"></span></button>
+  </div>
+
+  <!-- Tab: Propuesta -->
+  <div class="tab-content active" id="tab-propuesta">
+    <div class="proposal-frame">
+      <iframe id="proposalIframe" sandbox="allow-scripts allow-same-origin"></iframe>
+    </div>
+  </div>
+
+  <!-- Tab: Comentarios -->
+  <div class="tab-content" id="tab-comentarios">
+    <div class="comments-section">
+      <div class="comments-header">
+        <h2>Comentarios y Observaciones</h2>
+        <span class="comments-count" id="commentsCount">0 comentarios</span>
+      </div>
+
+      <div class="comment-form">
+        <div class="comment-form-row">
+          <input type="text" class="comment-input" id="commentName" placeholder="Tu nombre" maxlength="60">
+          <input type="email" class="comment-input" id="commentEmail" placeholder="Email (opcional)" maxlength="100">
+        </div>
+        <textarea class="comment-input" id="commentBody" placeholder="Escribe tu comentario, observacion o consulta..." rows="4" maxlength="2000"></textarea>
+        <button class="comment-submit" onclick="addComment()">Enviar comentario</button>
+      </div>
+
+      <div class="comments-list" id="commentsList"></div>
+    </div>
+  </div>
+
+  <div class="portal-footer">
+    OTEC Cuenca Lago Ranco Capacitaciones SpA &middot;
+    <a href="https://www.otecdelranco.cl" target="_blank">www.otecdelranco.cl</a>
+  </div>
+</div>
+
+<script src="propuestas-config.js"></script>
+<script>
+const AUTH_KEY_PREFIX = 'prop_auth_';
+const COMMENTS_KEY_PREFIX = 'prop_comments_';
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let currentProp = null;
+
+function init() {
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('t');
+  const id = params.get('id');
+
+  if (token) {
+    currentProp = getConfigByToken(token);
+    if (currentProp) {
+      grantAccess();
+      return;
+    }
+  }
+
+  if (id) {
+    currentProp = getConfigById(id);
+  } else if (PROPUESTAS.length === 1) {
+    currentProp = PROPUESTAS[0];
+  }
+
+  if (!currentProp) {
+    document.querySelector('.gate-box h1').textContent = 'Propuesta no encontrada';
+    document.querySelector('.gate-box p').textContent = 'El enlace no es valido. Contacta a quien te lo envio.';
+    document.getElementById('gatePassword').style.display = 'none';
+    document.getElementById('gateSubmit').style.display = 'none';
+    return;
+  }
+
+  const stored = sessionStorage.getItem(AUTH_KEY_PREFIX + currentProp.id);
+  if (stored === 'ok') {
+    grantAccess();
+  }
+}
+
+function checkPassword() {
+  if (!currentProp) return;
+  const input = document.getElementById('gatePassword').value.trim();
+  if (input === currentProp.password) {
+    sessionStorage.setItem(AUTH_KEY_PREFIX + currentProp.id, 'ok');
+    grantAccess();
+  } else {
+    document.getElementById('gateError').classList.add('show');
+    document.getElementById('gatePassword').value = '';
+    document.getElementById('gatePassword').focus();
+  }
+}
+
+document.getElementById('gatePassword').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') checkPassword();
+});
+
+function grantAccess() {
+  document.getElementById('gateOverlay').classList.add('hidden');
+  document.getElementById('mainContent').style.display = 'block';
+  loadProposal();
+}
+
+function loadProposal() {
+  if (!currentProp) return;
+
+  document.title = currentProp.titulo + ' — OTEC Lago Ranco';
+  document.getElementById('propCliente').textContent = currentProp.cliente;
+  document.getElementById('propEstado').textContent = currentProp.estado;
+
+  const iframe = document.getElementById('proposalIframe');
+  iframe.src = currentProp.htmlFile;
+
+  iframe.onload = function() {
+    try {
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const h = Math.max(iframeDoc.documentElement.scrollHeight, iframeDoc.body.scrollHeight, 5000);
+      iframe.style.height = h + 'px';
+    } catch(e) {
+      iframe.style.height = '8000px';
+    }
+  };
+
+  const pdfBtn = document.getElementById('btnDownloadPdf');
+  if (currentProp.pdfFile) {
+    pdfBtn.href = currentProp.pdfFile;
+    pdfBtn.style.display = 'inline-flex';
+  } else {
+    pdfBtn.style.display = 'none';
+  }
+
+  loadComments();
+}
+
+// ===== Tabs =====
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  if (btn) btn.classList.add('active');
+}
+
+function scrollToComments() {
+  switchTab('comentarios', document.querySelector('[onclick*="comentarios"]'));
+  document.querySelector('.comments-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ===== Comments (localStorage, upgradeable to Supabase) =====
+function getCommentsKey() {
+  return COMMENTS_KEY_PREFIX + (currentProp ? currentProp.id : 'unknown');
+}
+
+function getComments() {
+  const raw = localStorage.getItem(getCommentsKey());
+  return raw ? JSON.parse(raw) : [];
+}
+
+function saveComments(comments) {
+  localStorage.setItem(getCommentsKey(), JSON.stringify(comments));
+}
+
+function addComment() {
+  const name = document.getElementById('commentName').value.trim();
+  const email = document.getElementById('commentEmail').value.trim();
+  const body = document.getElementById('commentBody').value.trim();
+
+  if (!name) { alert('Ingresa tu nombre'); return; }
+  if (!body) { alert('Escribe un comentario'); return; }
+
+  const comments = getComments();
+  comments.unshift({
+    id: Date.now(),
+    name: name,
+    email: email,
+    body: body,
+    date: new Date().toISOString()
+  });
+  saveComments(comments);
+
+  document.getElementById('commentBody').value = '';
+  loadComments();
+}
+
+function loadComments() {
+  const comments = getComments();
+  const list = document.getElementById('commentsList');
+  const count = document.getElementById('commentsCount');
+  const badge = document.getElementById('commentBadge');
+
+  count.textContent = comments.length + ' comentario' + (comments.length !== 1 ? 's' : '');
+  badge.textContent = comments.length > 0 ? '(' + comments.length + ')' : '';
+
+  if (comments.length === 0) {
+    list.innerHTML = '<div class="no-comments"><div class="no-comments-icon">&#128172;</div><p>No hay comentarios aun.<br>Se el primero en dejar una observacion.</p></div>';
+    return;
+  }
+
+  list.innerHTML = comments.map(c => {
+    const safeName = escapeHtml(c.name);
+    const initials = c.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
+    const date = new Date(c.date);
+    const dateStr = date.toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const bodyHtml = escapeHtml(c.body).replace(/\n/g,'<br>');
+    return '<div class="comment-card">' +
+      '<div class="comment-meta">' +
+        '<div class="comment-avatar">' + escapeHtml(initials) + '</div>' +
+        '<div><div class="comment-author">' + safeName + '</div>' +
+        '<div class="comment-date">' + dateStr + '</div></div>' +
+      '</div>' +
+      '<div class="comment-body">' + bodyHtml + '</div>' +
+    '</div>';
+  }).join('');
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,645 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTEC Lago Ranco × Colun — El nuevo Colun digital</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0e1a;
+    --bg-alt: #131929;
+    --card: #1a2238;
+    --accent: #4f8eff;
+    --accent-2: #ff6b6b;
+    --accent-3: #51cf66;
+    --gold: #fcc419;
+    --text: #e9ecef;
+    --text-mute: #adb5bd;
+    --border: #2c3654;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 100px 0; position: relative; }
+
+  /* ==== Nav ==== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    backdrop-filter: blur(20px);
+    background: rgba(10, 14, 26, 0.7);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+  }
+  nav .container { display: flex; justify-content: space-between; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0; }
+  nav .brand { font-weight: 700; letter-spacing: -0.02em; font-size: 16px; }
+  nav .brand span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 28px; font-size: 14px; }
+  nav a { color: var(--text-mute); text-decoration: none; transition: color 0.2s; }
+  nav a:hover { color: var(--text); }
+  @media (max-width: 720px) { nav ul { display: none; } }
+
+  /* ==== Hero ==== */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; position: relative; padding-top: 80px;
+    background: radial-gradient(ellipse at top, rgba(79, 142, 255, 0.15), transparent 60%),
+                radial-gradient(ellipse at bottom right, rgba(255, 107, 107, 0.08), transparent 60%);
+  }
+  .hero-tag { color: var(--accent); font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 24px; opacity: 0; animation: fadeIn 0.8s 0.2s forwards; }
+  .hero h1 {
+    font-size: clamp(40px, 7vw, 84px);
+    font-weight: 800; letter-spacing: -0.04em; line-height: 1.05;
+    margin-bottom: 24px; max-width: 900px;
+    background: linear-gradient(180deg, #ffffff 0%, #b0b8d0 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0; animation: fadeIn 0.8s 0.4s forwards;
+  }
+  .hero p.lead { font-size: clamp(18px, 2vw, 22px); color: var(--text-mute); max-width: 680px; margin-bottom: 48px; opacity: 0; animation: fadeIn 0.8s 0.6s forwards; }
+  .hero .cta { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; opacity: 0; animation: fadeIn 0.8s 0.8s forwards; }
+  .btn {
+    background: var(--accent); color: white; padding: 14px 28px;
+    border-radius: 100px; text-decoration: none; font-weight: 600; font-size: 15px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: none; cursor: pointer;
+    box-shadow: 0 8px 32px rgba(79, 142, 255, 0.3);
+  }
+  .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(79, 142, 255, 0.5); }
+  .btn-ghost { background: transparent; border: 1px solid var(--border); }
+  .btn-ghost:hover { background: var(--card); border-color: var(--accent); }
+  .scroll-hint { position: absolute; bottom: 40px; color: var(--text-mute); font-size: 12px; letter-spacing: 0.2em; animation: bounce 2s infinite; }
+  @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(20px); } }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+  /* ==== Section headers ==== */
+  .section-tag { color: var(--accent); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 16px; }
+  h2 { font-size: clamp(32px, 4.5vw, 56px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px; max-width: 800px; }
+  h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.01em; }
+  .lead-text { color: var(--text-mute); font-size: 18px; max-width: 720px; margin-bottom: 56px; }
+
+  /* ==== Por qué ahora ==== */
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+  .stat {
+    background: var(--card); padding: 32px; border-radius: 20px;
+    border: 1px solid var(--border);
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .stat:hover { transform: translateY(-4px); border-color: var(--accent); }
+  .stat .num { font-size: 48px; font-weight: 800; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--accent), #8a52ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .stat .label { color: var(--text-mute); font-size: 14px; margin-top: 8px; }
+
+  /* ==== Mitos ==== */
+  .myths { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; perspective: 1000px; }
+  .myth-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 20px; padding: 0; cursor: pointer;
+    height: 220px; position: relative; transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  .myth-card.flipped { transform: rotateY(180deg); }
+  .myth-front, .myth-back {
+    position: absolute; inset: 0; padding: 28px;
+    backface-visibility: hidden; border-radius: 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .myth-front { background: var(--card); }
+  .myth-back { transform: rotateY(180deg); background: linear-gradient(135deg, #2a3760, #1a2238); }
+  .myth-label { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; align-self: flex-start; }
+  .myth-front .myth-label { background: rgba(255, 107, 107, 0.2); color: #ff8b8b; }
+  .myth-back .myth-label { background: rgba(81, 207, 102, 0.2); color: #6fdc7a; }
+  .myth-text { font-size: 18px; font-weight: 600; line-height: 1.3; }
+  .myth-hint { font-size: 12px; color: var(--text-mute); }
+
+  /* ==== Demo IA ==== */
+  .demo {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-alt) 100%);
+  }
+  .demo-window {
+    background: #1e1e1e; border-radius: 16px; overflow: hidden;
+    border: 1px solid var(--border); max-width: 800px; margin: 40px auto 0;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+  .demo-header { background: #2a2a2a; padding: 12px 16px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #1a1a1a; }
+  .demo-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .demo-dot.r { background: #ff5f56; }
+  .demo-dot.y { background: #ffbd2e; }
+  .demo-dot.g { background: #27c93f; }
+  .demo-title { color: var(--text-mute); font-size: 12px; margin-left: 12px; }
+  .demo-body { padding: 24px; min-height: 300px; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 14px; line-height: 1.7; }
+  .demo-prompt { color: var(--accent); margin-bottom: 16px; }
+  .demo-prompt::before { content: "👤 "; }
+  .demo-output { color: #d4d4d4; }
+  .demo-output::before { content: "✨ Gemini "; color: var(--gold); font-weight: 600; }
+  .demo-cursor { display: inline-block; width: 10px; height: 18px; background: var(--accent); animation: blink 1s infinite; vertical-align: middle; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .demo-controls { text-align: center; margin-top: 32px; }
+  .demo-info { color: var(--text-mute); font-size: 14px; margin-top: 16px; }
+
+  /* ==== 3 Niveles ==== */
+  .niveles { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 24px; }
+  .nivel {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 32px; position: relative; overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+  .nivel:hover { transform: translateY(-6px); }
+  .nivel::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  }
+  .nivel.n1::before { background: linear-gradient(90deg, var(--accent-2), var(--gold)); }
+  .nivel.n2::before { background: linear-gradient(90deg, var(--accent), #8a52ff); }
+  .nivel.n3::before { background: linear-gradient(90deg, var(--accent-3), var(--accent)); }
+  .nivel-num { color: var(--text-mute); font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 12px; }
+  .nivel h3 { font-size: 24px; margin-bottom: 8px; }
+  .nivel-tag { font-size: 13px; color: var(--text-mute); margin-bottom: 24px; }
+  .nivel-feat { list-style: none; margin: 24px 0; }
+  .nivel-feat li { padding: 8px 0; padding-left: 24px; position: relative; font-size: 14px; color: var(--text-mute); border-bottom: 1px solid var(--border); }
+  .nivel-feat li:last-child { border-bottom: none; }
+  .nivel-feat li::before { content: "✓"; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+  .nivel-price { font-size: 13px; color: var(--text-mute); margin-top: 8px; }
+  .nivel-price strong { color: var(--text); font-size: 20px; display: block; margin-top: 4px; }
+
+  /* ==== Keynote section ==== */
+  .keynote {
+    background: radial-gradient(ellipse at center, rgba(252, 196, 25, 0.08), transparent 70%), var(--bg-alt);
+  }
+  .keynote-stage {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 48px; margin-top: 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center;
+  }
+  @media (max-width: 720px) { .keynote-stage { grid-template-columns: 1fr; } }
+  .keynote-visual { position: relative; min-height: 200px; display: flex; align-items: center; justify-content: center; }
+  .stage-frame { width: 100%; aspect-ratio: 16 / 10; background: linear-gradient(180deg, #2a3760 0%, #0a0e1a 100%); border-radius: 16px; position: relative; overflow: hidden; border: 1px solid var(--border); }
+  .stage-screen { position: absolute; top: 12%; left: 8%; right: 8%; bottom: 38%; background: linear-gradient(135deg, rgba(79, 142, 255, 0.4), rgba(252, 196, 25, 0.2)); border-radius: 8px; box-shadow: 0 0 40px rgba(79, 142, 255, 0.4); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px; letter-spacing: 0.1em; }
+  .stage-figure { position: absolute; bottom: 5%; width: 18px; height: 32%; background: #ff6b6b; border-radius: 4px 4px 0 0; }
+  .figure-1 { left: 30%; }
+  .figure-2 { left: 65%; background: var(--gold); }
+  .stage-floor { position: absolute; left: 0; right: 0; bottom: 0; height: 5%; background: linear-gradient(90deg, transparent, rgba(79, 142, 255, 0.2), transparent); }
+
+  .speakers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px; }
+  .speaker {
+    background: var(--bg-alt); padding: 16px; border-radius: 12px; border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .speaker-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px; }
+  .speaker-info h4 { font-size: 14px; margin: 0; font-weight: 600; }
+  .speaker-info p { color: var(--text-mute); font-size: 12px; margin: 0; }
+
+  /* ==== Calculadora ==== */
+  .calc { background: var(--card); border: 1px solid var(--border); border-radius: 24px; padding: 48px; margin-top: 40px; }
+  .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  @media (max-width: 720px) { .calc-grid { grid-template-columns: 1fr; gap: 32px; } }
+  .calc-controls label { display: block; font-size: 13px; color: var(--text-mute); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+  .calc-slider { width: 100%; -webkit-appearance: none; appearance: none; height: 6px; background: var(--border); border-radius: 100px; outline: none; }
+  .calc-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 24px; height: 24px; background: var(--accent); border-radius: 50%; cursor: pointer; box-shadow: 0 4px 12px rgba(79, 142, 255, 0.4); }
+  .calc-slider::-moz-range-thumb { width: 24px; height: 24px; background: var(--accent); border-radius: 50%; cursor: pointer; border: none; }
+  .calc-value { font-size: 64px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin: 16px 0; background: linear-gradient(135deg, var(--accent), #8a52ff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .calc-checkboxes { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+  .calc-check { display: flex; align-items: center; gap: 12px; cursor: pointer; padding: 12px; border-radius: 12px; transition: background 0.2s; }
+  .calc-check:hover { background: rgba(79, 142, 255, 0.1); }
+  .calc-check input { width: 20px; height: 20px; accent-color: var(--accent); }
+  .calc-check span { font-size: 14px; }
+  .calc-result { background: var(--bg-alt); padding: 32px; border-radius: 16px; }
+  .calc-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .calc-row:last-child { border-bottom: none; padding-top: 16px; }
+  .calc-row span:first-child { color: var(--text-mute); font-size: 14px; }
+  .calc-row span:last-child { font-weight: 600; }
+  .calc-total { font-size: 22px; color: var(--accent) !important; }
+  .calc-note { font-size: 12px; color: var(--text-mute); margin-top: 16px; font-style: italic; }
+
+  /* ==== Cronograma ==== */
+  .timeline { position: relative; padding-left: 48px; margin-top: 40px; }
+  .timeline::before { content: ""; position: absolute; left: 16px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { position: relative; padding-bottom: 40px; }
+  .tl-item::before { content: ""; position: absolute; left: -40px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--accent); border: 4px solid var(--bg); box-shadow: 0 0 0 2px var(--accent); }
+  .tl-week { font-size: 12px; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+  .tl-item h4 { font-size: 18px; margin: 4px 0 8px; }
+  .tl-item p { color: var(--text-mute); font-size: 14px; }
+
+  /* ==== CTA ==== */
+  .cta-section { text-align: center; background: radial-gradient(ellipse at center, rgba(79, 142, 255, 0.1), transparent 70%); }
+  .cta-section h2 { margin: 0 auto 24px; }
+  .cta-section p { color: var(--text-mute); font-size: 18px; margin-bottom: 40px; }
+
+  footer { padding: 40px 24px; border-top: 1px solid var(--border); text-align: center; color: var(--text-mute); font-size: 13px; }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+<script>
+if (window.self !== window.top) {
+  document.documentElement.classList.add('in-iframe');
+}
+</script>
+<style>
+.in-iframe .hero { min-height: auto; padding: 120px 0 80px; }
+.in-iframe nav { position: relative; }
+.in-iframe section { padding: 60px 0; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <div class="brand">OTEC Lago Ranco<span>×</span>Colun</div>
+    <ul>
+      <li><a href="#porque">Por qué</a></li>
+      <li><a href="#mitos">Mitos</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#niveles">Niveles</a></li>
+      <li><a href="#cronograma">Cronograma</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-tag">Programa territorial 2026 · 600 alumnos · La Unión</div>
+    <h1>Del Microsoft de siempre<br>al Google que entiende lo que necesitas.</h1>
+    <p class="lead">Una propuesta diseñada para encantar — no para asustar. 600 trabajadores de Colun y empresas socias del territorio, todos usuarios Microsoft 365, capacitados juntos en La Unión. La gran diferencia: ya no dependemos de programas rígidos — la IA se adapta a cada trabajo, a cada persona, a cada planilla.</p>
+    <div class="cta">
+      <a href="#niveles" class="btn">Ver los 3 niveles</a>
+      <a href="#demo" class="btn btn-ghost">Ver IA en vivo</a>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ DESLIZA</div>
+</section>
+
+<section id="porque">
+  <div class="container">
+    <div class="section-tag">¿Por qué ahora? ¿Por qué con Colun como tractor?</div>
+    <h2>Ya no se trata de aprender muchos programas. Se trata de aprender a colaborar con un asistente que entiende.</h2>
+    <p class="lead-text">Colun lleva años operando con Microsoft 365 y tomó la decisión estratégica de migrar a Google Workspace con Inteligencia Artificial. Como empresa ancla del territorio, esa decisión arrastra a sus empresas socias (cooperativas, fundos, agroindustriales) que comparten proveedor digital. 600 trabajadores —todos usuarios Microsoft hoy— capacitados juntos en La Unión, con franquicia SENCE de cada empresa cubriendo a su gente.</p>
+    <p class="lead-text" style="margin-top:-32px;">La diferencia con cualquier capacitación digital de hace 10 años: <strong style="color:var(--text)">ya no se trata de dominar programas rígidos uno por uno</strong>. La IA generativa convierte la conversación en la nueva interfaz del trabajo administrativo. Workspace + Gemini es el último programa que vas a tener que aprender de fondo — porque de aquí en adelante, le pides al asistente y se adapta a tu trabajo, a tu planilla, a tu correo.</p>
+    <div class="stats">
+      <div class="stat">
+        <div class="num">600</div>
+        <div class="label">trabajadores capacitados en el territorio — Colun + empresas socias</div>
+      </div>
+      <div class="stat">
+        <div class="num">3</div>
+        <div class="label">niveles progresivos: Despertar IA · Productividad · Liderazgo IA</div>
+      </div>
+      <div class="stat">
+        <div class="num">20h</div>
+        <div class="label">de duración cada nivel — modalidad mixta presencial + e-learning</div>
+      </div>
+      <div class="stat">
+        <div class="num">SENCE</div>
+        <div class="label">codificable como curso interno por cada empresa socia con franquicia tributaria</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mitos" style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="section-tag">El primer paso es derribar mitos</div>
+    <h2>Lo que la gente cree de la IA. Y lo que realmente es.</h2>
+    <p class="lead-text">Antes de aprender herramientas, hay que ordenar las ideas. La sesión inaugural de la propuesta está dedicada a estos seis mitos. Haz click en cada tarjeta para darla vuelta.</p>
+    <div class="myths" id="myths"></div>
+    <p style="text-align:center; color:var(--text-mute); font-size:13px; margin-top:32px;">↓ Click en las tarjetas para ver la realidad</p>
+  </div>
+</section>
+
+<section id="demo" class="demo">
+  <div class="container">
+    <div class="section-tag">El "Wow Effect"</div>
+    <h2>Así se ve la IA cuando está bien usada.</h2>
+    <p class="lead-text">Esto es lo que el relator hace en vivo en el escenario del auditorio Colun, frente a todos los trabajadores. No es un truco — es lo mismo que cada uno va a poder hacer al final del Nivel 2. Aprieta el botón.</p>
+
+    <div class="demo-window">
+      <div class="demo-header">
+        <div class="demo-dot r"></div>
+        <div class="demo-dot y"></div>
+        <div class="demo-dot g"></div>
+        <div class="demo-title">Gemini en Google Workspace — demo en vivo</div>
+      </div>
+      <div class="demo-body" id="demoBody">
+        <div class="demo-prompt">Resume este hilo de 47 correos sobre el reclamo del cliente Lácteos del Sur y proponme una respuesta en 3 párrafos, tono cordial pero firme, mencionando el plazo de reposición.</div>
+        <div class="demo-output" id="demoOutput"></div>
+      </div>
+    </div>
+
+    <div class="demo-controls">
+      <button class="btn" onclick="runDemo()">▶ Ejecutar IA</button>
+    </div>
+    <p class="demo-info">Esta animación reproduce el comportamiento de Gemini integrado en Gmail. La demo en vivo durante la keynote se hace con datos reales de Colun (con ejemplos no sensibles).</p>
+  </div>
+</section>
+
+<section id="niveles">
+  <div class="container">
+    <div class="section-tag">El programa</div>
+    <h2>Tres niveles, una transformación.</h2>
+    <p class="lead-text">Cada nivel se puede contratar de forma independiente o como un programa progresivo. Los valores son referenciales y se ajustan según volumen final, instalaciones que aporta Colun y modalidad SENCE elegida.</p>
+    <div class="niveles">
+
+      <div class="nivel n1">
+        <div class="nivel-num">Nivel 1 · Despertar IA + arranque digital</div>
+        <h3>"¿Por qué importa la IA y dónde parto?"</h3>
+        <div class="nivel-tag">Para los 600 + jefaturas · 20h mixto (10 presencial + 10 e-learning)</div>
+        <ul class="nivel-feat">
+          <li>Keynote inaugural en auditorio La Unión con 2 expertos influencers</li>
+          <li>Derribamos los 7 mitos de IA — incluido "tengo que aprender muchos programas"</li>
+          <li>Demo en vivo Wow Effect: Gemini analiza una planilla de Sheets en tiempo real</li>
+          <li>Cuenta corporativa Workspace activa + Drive sincronizado en PC/notebook</li>
+          <li><strong>Primer Sheets básico</strong>: crear, celdas, formato, sumar, primera planilla del trabajo</li>
+          <li>Primer Gmail + primer Doc + primer prompt con Gemini funcionando</li>
+          <li>E-learning con relator: tutoriales paso a paso y foros de consultas</li>
+        </ul>
+      </div>
+
+      <div class="nivel n2">
+        <div class="nivel-num">Nivel 2 · Dominio operativo + IA cotidiana</div>
+        <h3>"El día a día con Workspace + Gemini"</h3>
+        <div class="nivel-tag">Para los 600 + jefaturas · 20h mixto (10 presencial + 10 e-learning)</div>
+        <ul class="nivel-feat">
+          <li>Gmail avanzado: filtros, plantillas, búsqueda, delegación</li>
+          <li>Drive con permisos avanzados, Unidades Compartidas, trabajo offline</li>
+          <li>Docs colaborativo a nivel intermedio</li>
+          <li><strong>Sheets intermedio (eje del nivel)</strong>: fórmulas SUMA/PROMEDIO/SI/BUSCARV/CONSULTAV, filtros, vistas, gráficos, edición en tiempo real</li>
+          <li>Calendar y Meet para coordinación de trabajo</li>
+          <li><strong>Gemini cotidiano + Sheets+Gemini</strong>: pedirle análisis de tu planilla, generar fórmulas, completar columnas</li>
+          <li>60% horas prácticas (cumple norma SENCE)</li>
+        </ul>
+      </div>
+
+      <div class="nivel n3">
+        <div class="nivel-num">Nivel 3 · Administrativo full</div>
+        <h3>"Sheets avanzado + IA para análisis y autonomía total"</h3>
+        <div class="nivel-tag">Ruta Administrativos · 20h mixto · cierra el dominio del rol</div>
+        <ul class="nivel-feat">
+          <li><strong>Sheets avanzado (núcleo del nivel)</strong>: tablas dinámicas, fórmulas complejas, IMPORTRANGE, ARRAYFORMULA, dashboards básicos</li>
+          <li><strong>Sheets + Gemini</strong>: análisis de datos, detectar patrones, sugerir gráficos, generar informes desde la planilla</li>
+          <li>Slides profesionales integrando datos de Sheets</li>
+          <li>Chat, Spaces y Tasks para trabajo en equipo</li>
+          <li>Pequeñas automatizaciones personales con Apps Script básico</li>
+          <li>Marco ético y protección de datos en uso diario de IA</li>
+        </ul>
+      </div>
+
+      <div class="nivel n3" style="border-top-color: var(--gold) !important;">
+        <div class="nivel-num">Nivel 3 Jefaturas · IA + Liderazgo</div>
+        <h3>"Sheets + workflows + plan de adopción del equipo"</h3>
+        <div class="nivel-tag">Ruta Jefaturas · 20h mixto · más exigente</div>
+        <ul class="nivel-feat">
+          <li><strong>Sheets avanzado + dashboard ejecutivo del equipo</strong></li>
+          <li><strong>Apps Script automatizando Sheets del equipo</strong>: alertas, informes mensuales, alimentación automática</li>
+          <li>Workflows IA aplicados al equipo del jefe</li>
+          <li>Prompts complejos y técnicas avanzadas (few-shot, chain-of-thought)</li>
+          <li>Ética, gobernanza y política IA Colun</li>
+          <li>Proyecto integrador: plan de adopción IA del equipo a 30/60/90 días</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="keynote">
+  <div class="container">
+    <div class="section-tag">Nivel 1 · La sesión que parte distinto</div>
+    <h2>Keynote inaugural en el auditorio Colun.</h2>
+    <p class="lead-text">Una mañana, todos los trabajadores juntos en el auditorio. Pantallas grandes. Dos invitados que no son consultores aburridos — son referentes en redes sociales, informáticos de profesión, voces conocidas que llevan años explicando IA a personas no técnicas. Y un escenario montado para que el cambio se sienta como un evento, no como una capacitación.</p>
+
+    <div class="keynote-stage">
+      <div>
+        <h3>El formato</h3>
+        <p style="color:var(--text-mute); margin-bottom:16px;"><strong style="color:var(--text)">Bloque A — Auditorio (3h):</strong> keynote masiva con todos juntos. <strong style="color:var(--text)">Bloque B — Sala (1h):</strong> taller técnico en grupos. <strong style="color:var(--text)">Bloque C — E-learning (4h):</strong> tutoriales con relator de apoyo.</p>
+        <ol style="padding-left: 20px; color:var(--text-mute); font-size:14px; line-height:1.9;">
+          <li><strong style="color:var(--text)">Bienvenida del liderazgo Colun</strong> — el porqué del cambio.</li>
+          <li><strong style="color:var(--text)">Mitos vs realidad</strong> — los dos influencers en escenario, dialogando.</li>
+          <li><strong style="color:var(--text)">Wow Effect en vivo</strong> — demo de Gemini con datos Colun.</li>
+          <li><strong style="color:var(--text)">Taller práctico en sala</strong> — instalación y sincronización de Google Drive en PC/notebook, primer correo, primer documento, primer prompt. Cada participante sale con su computador funcionando.</li>
+          <li><strong style="color:var(--text)">E-learning con relator</strong> — refuerzo, tutoriales y foros de consultas durante 1 a 2 semanas.</li>
+        </ol>
+        <div class="speakers">
+          <div class="speaker">
+            <div class="speaker-avatar">E1</div>
+            <div class="speaker-info">
+              <h4>Experto IA #1</h4>
+              <p>Por confirmar · Influencer redes</p>
+            </div>
+          </div>
+          <div class="speaker">
+            <div class="speaker-avatar">E2</div>
+            <div class="speaker-info">
+              <h4>Experto IA #2</h4>
+              <p>Por confirmar · Influencer redes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="keynote-visual">
+        <div class="stage-frame">
+          <div class="stage-screen">EL NUEVO COLUN DIGITAL</div>
+          <div class="stage-figure figure-1"></div>
+          <div class="stage-figure figure-2"></div>
+          <div class="stage-floor"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calculadora" style="display:none">
+  <div class="container">
+    <div class="section-tag">Calculadora</div>
+    <h2>¿Cuánto invierte Colun según el alcance?</h2>
+    <p class="lead-text">Sección reservada para una versión posterior — los valores se ajustan tras conversar la operación con el encargado de capacitación de Colun.</p>
+
+    <div class="calc">
+      <div class="calc-grid">
+        <div class="calc-controls">
+          <label>Trabajadores a capacitar (Colun + empresas socias)</label>
+          <div class="calc-value" id="calcPersonas">600</div>
+          <input type="range" min="25" max="700" step="25" value="600" class="calc-slider" id="slider">
+          <div style="display:flex; justify-content:space-between; color:var(--text-mute); font-size:12px; margin-top:8px;"><span>25</span><span>700</span></div>
+
+          <div class="calc-checkboxes">
+            <label class="calc-check"><input type="checkbox" id="chk1" checked> <span><strong>Nivel 1 · Despertar IA</strong> — keynote para todos</span></label>
+            <label class="calc-check"><input type="checkbox" id="chk2" checked> <span><strong>Nivel 2 · Productividad</strong> — curso 24h mixto</span></label>
+            <label class="calc-check"><input type="checkbox" id="chk3"> <span><strong>Nivel 3 · Liderazgo IA</strong> — para 20% líderes</span></label>
+          </div>
+        </div>
+        <div class="calc-result">
+          <div class="calc-row"><span>Aporte SENCE estimado</span><span id="rSence">—</span></div>
+          <div class="calc-row"><span>Costo total programa</span><span id="rTotal">—</span></div>
+          <div class="calc-row"><span>Cofinanciamiento Colun</span><span id="rColun">—</span></div>
+          <div class="calc-row"><span>Inversión por trabajador</span><span id="rPersona" class="calc-total">—</span></div>
+          <p class="calc-note">Valores referenciales calculados con $3.500/h SENCE Nivel 2 y $5.600/h Nivel 3. Ajustables.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="cronograma" style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="section-tag">Cronograma propuesto</div>
+    <h2>9 meses para transformar el sur en territorio digital.</h2>
+    <p class="lead-text">Calendario de referencia para 600 alumnos en La Unión, con grupos paralelos para acortar el ciclo total. Se ajusta a la disponibilidad de Colun, los turnos productivos de las empresas socias y la fecha de aprobación SENCE.</p>
+
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-week">Mes 1-2 · Pre-arranque</div>
+        <h4>Codificación SENCE y activación de cuentas</h4>
+        <p>Codificación de los 3 cursos para SENCE en cada empresa socia. Activación de Workspace empresarial con Gemini en Colun y socias. Conformación de equipo de 3-4 relatores titulares + 2 suplentes. Plataforma e-learning operativa con usuario de prueba SENCE.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">Mes 3 · Lanzamiento masivo</div>
+        <h4>Nivel 1 — Keynote en auditorio La Unión</h4>
+        <p>Keynote inaugural con los 2 expertos invitados, los 7 mitos derribados y el Wow Effect en vivo. <strong>Formato a definir con Colun</strong>: jornada única para los 720 si la capacidad del auditorio lo permite, o varias jornadas separadas — incluso una posibilidad es jornada conjunta con un bloque exclusivo adicional para jefaturas.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">Mes 3 · Talleres prácticos</div>
+        <h4>Nivel 1 — Taller en sala (24 grupos × 1h)</h4>
+        <p>Cada grupo de 25 pasa por sala con un computador por persona. Salen con Google Drive sincronizado en su PC, cuenta corporativa activa, primer correo y primer prompt funcionando. Ejecutados en paralelo durante 2-3 semanas.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">Meses 3-4 · Refuerzo Nivel 1</div>
+        <h4>E-learning con relator</h4>
+        <p>4 horas asincrónicas en plataforma para los 600. Relatores apoyan foros de consulta y autoevaluaciones.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">Meses 4-9 · Productividad</div>
+        <h4>Nivel 2 — Migración + IA aplicada (24 grupos)</h4>
+        <p>24 grupos de 25 personas cada uno. Con 6 grupos paralelos por mes (3-4 relatores trabajando), el ciclo completo del Nivel 2 corre en aproximadamente 6 meses.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">Meses 7-9 · Liderazgo</div>
+        <h4>Nivel 3 — IA Avanzada (8 grupos)</h4>
+        <p>120 líderes (20% del total) en 8 grupos de 15. Comienza una vez que la primera ola de Nivel 2 ya tiene base de Workspace operando.</p>
+      </div>
+      <div class="tl-item">
+        <div class="tl-week">Mes 10 · Acompañamiento</div>
+        <h4>Seguimiento y mediciones territoriales</h4>
+        <p>Encuesta de adopción a los 600 alumnos, métricas de uso de Gemini por empresa, casos de éxito del territorio. Informe consolidado para Colun y empresas socias.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <h2>¿Conversamos?</h2>
+    <p>Esta es una pre-propuesta. Lo siguiente es sentarnos con el encargado del programa de capacitación de Colun y construir el plan a la medida.</p>
+    <div class="cta">
+      <a href="mailto:eduardo@termasllifen.cl?subject=Reunión propuesta IA Colun" class="btn">Agendar reunión</a>
+      <a href="https://www.otecdelranco.cl" target="_blank" class="btn btn-ghost">Conocer OTEC Lago Ranco</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  OTEC Cuenca Lago Ranco Capacitaciones SpA · RUT 77.039.999-8 · La Unión, Los Ríos<br>
+  <a href="mailto:eduardo@termasllifen.cl">eduardo@termasllifen.cl</a> · <a href="https://www.otecdelranco.cl" target="_blank">www.otecdelranco.cl</a><br>
+  <span style="opacity: 0.6;">Pre-propuesta interactiva — versión 1.0</span>
+</footer>
+
+<script>
+// ===== Mitos data =====
+const myths = [
+  { mito: '"La IA es sólo una moda pasajera."', real: 'Las herramientas de IA generativa ya están integradas en los productos que usas: Gmail, Word, Photoshop, WhatsApp Business. No es moda — es la siguiente capa del software.' },
+  { mito: '"La IA siempre miente."', real: 'La IA puede equivocarse, especialmente con datos sin contexto. La regla simple: la IA propone, tú revisas. Tu nombre va en lo que entregas, siempre.' },
+  { mito: '"Es hacer trampa."', real: 'Usar IA es como usar una calculadora. La trampa sería entregar algo sin revisar. Bien usada, te libera de tareas mecánicas para concentrarte en lo que aporta valor.' },
+  { mito: '"Es solo copiar y pegar."', real: 'La habilidad real es saber pedir bien (prompts) y saber revisar. Eso es un oficio nuevo — el del trabajador que sabe colaborar con IA.' },
+  { mito: '"La IA me va a reemplazar."', real: 'Te reemplaza un colega que sabe usar IA antes que tú. Por eso aprenderlo en equipo, juntos, es la mejor protección laboral.' },
+  { mito: '"Es muy técnico para mí."', real: 'Si sabes escribir un mensaje de WhatsApp, sabes hablarle a una IA. La interfaz es conversación. Por eso este curso parte por personas, no por código.' },
+  { mito: '"Tengo que aprender un programa nuevo para cada cosa que hago."', real: 'Antes sí. Ahora la IA entiende lo que pides y se adapta a tu trabajo. Le pides a Gemini un resumen, un cálculo, un correo, una presentación, un análisis de tu planilla — y se ajusta a lo que necesitas. Workspace + Gemini es el último programa que tendrás que aprender de fondo. La IA es la nueva interfaz universal del trabajo administrativo.' }
+];
+const myhtml = myths.map((m, i) => `
+  <div class="myth-card" onclick="this.classList.toggle('flipped')">
+    <div class="myth-front">
+      <span class="myth-label">Mito ${i+1}</span>
+      <div class="myth-text">${m.mito}</div>
+      <span class="myth-hint">↻ Click para la realidad</span>
+    </div>
+    <div class="myth-back">
+      <span class="myth-label">Realidad</span>
+      <div class="myth-text" style="font-size:15px;">${m.real}</div>
+      <span class="myth-hint">↻ Click para volver</span>
+    </div>
+  </div>
+`).join('');
+document.getElementById('myths').innerHTML = myhtml;
+
+// ===== Demo IA typing =====
+const respuesta = `Estimado equipo de Lácteos del Sur:\n\nHemos recibido y revisado en detalle el reclamo presentado el día 28 de marzo. Lamentamos los inconvenientes ocasionados por la entrega del lote 4471 y agradecemos la información detallada que nos hicieron llegar — nos permite identificar la causa raíz en nuestra línea de envasado.\n\nPara resolver la situación de manera concreta, hemos coordinado la reposición integral del lote afectado, que será despachado en las próximas 72 horas hábiles. Adicionalmente, nuestro equipo de calidad estará en contacto directo durante las próximas dos semanas para validar que el problema no se repita.\n\nValoramos profundamente la relación de años con Lácteos del Sur y reafirmamos nuestro compromiso con los estándares que históricamente nos han caracterizado. Quedamos atentos a sus comentarios.\n\nCordialmente,\nEquipo Atención Clientes Colun`;
+
+let typing = false;
+function runDemo() {
+  if (typing) return;
+  typing = true;
+  const out = document.getElementById('demoOutput');
+  out.innerHTML = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'demo-cursor';
+  out.appendChild(cursor);
+  let i = 0;
+  const tick = () => {
+    if (i >= respuesta.length) { typing = false; return; }
+    const ch = respuesta[i];
+    if (ch === '\n') {
+      cursor.insertAdjacentHTML('beforebegin', '<br>');
+    } else {
+      cursor.insertAdjacentText('beforebegin', ch);
+    }
+    i++;
+    setTimeout(tick, ch === '\n' ? 200 : Math.random() * 35 + 10);
+  };
+  tick();
+}
+
+// ===== Calculadora =====
+const slider = document.getElementById('slider');
+const personasEl = document.getElementById('calcPersonas');
+const chk1 = document.getElementById('chk1');
+const chk2 = document.getElementById('chk2');
+const chk3 = document.getElementById('chk3');
+
+function fmt(n) { return '$' + Math.round(n).toLocaleString('es-CL'); }
+function calc() {
+  const N = parseInt(slider.value, 10);
+  personasEl.textContent = N;
+  let costoTotal = 0, sence = 0;
+  if (chk1.checked) {
+    costoTotal += N * 48000;
+    sence += N * 28000;
+  }
+  if (chk2.checked) {
+    const grupos = Math.ceil(N / 25);
+    costoTotal += grupos * 5450000;
+    sence += N * 84000;
+  }
+  if (chk3.checked) {
+    const lideres = Math.max(15, Math.round(N * 0.2));
+    const grupos = Math.ceil(lideres / 15);
+    costoTotal += grupos * 2250000;
+    sence += lideres * 56000;
+  }
+  const colun = Math.max(0, costoTotal - sence);
+  const porPersona = N > 0 ? colun / N : 0;
+  document.getElementById('rSence').textContent = fmt(sence);
+  document.getElementById('rTotal').textContent = fmt(costoTotal);
+  document.getElementById('rColun').textContent = fmt(colun);
+  document.getElementById('rPersona').textContent = fmt(porPersona);
+}
+slider.addEventListener('input', calc);
+chk1.addEventListener('change', calc);
+chk2.addEventListener('change', calc);
+chk3.addEventListener('change', calc);
+calc();
+</script>
+
+</body>
+</html>
